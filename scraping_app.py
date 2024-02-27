@@ -4,11 +4,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
-opts = Options()
+# opts = Options()
 
-opts.add_experimental_option("excludeSwitches", ["enable-popup-blocking"])
-
-browser = webdriver.Chrome(options = opts)
+browser = webdriver.Chrome()
 
 browser.get("https://de.indeed.com/")
 
@@ -21,7 +19,7 @@ search_form_job.submit()
 reject_cookie = WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By. ID, "onetrust-reject-all-handler")))
 reject_cookie.click()
 
-results = []
+results = {}
 current_page = 1
 
 while True:
@@ -34,7 +32,8 @@ while True:
         try:
             if "developer" in job.text.lower():
                 job_url = job.find_element(By.CLASS_NAME, "jobTitle").find_element(By.TAG_NAME, "a").get_attribute("href")
-                results.append(job_url)
+                job_title = job.find_element(By. CLASS_NAME, "jobTitle").text
+                results[job_title] = job_url
         except:
             job_listings = browser.find_elements(By.CLASS_NAME, "mosaic-zone")
             continue
@@ -44,7 +43,7 @@ while True:
     try:
         next_button = WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By. CSS_SELECTOR, "[data-testid=pagination-page-next]")))
         print("Next page found.")
-        browser.implicitly_wait(1000)
+        # browser.implicitly_wait(100)
         next_button.click()
         current_page += 1
         print(current_page)
@@ -52,8 +51,10 @@ while True:
             print("Waiting for email popup...")
             email_popup_close = WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By. CSS_SELECTOR, "[aria-label=schließen]")))
             email_popup_close.click()
-        browser.implicitly_wait(100)
+        # browser.implicitly_wait(100)
         print("Button clicked.")
     except:
         print("No more pages found.")
         break
+
+print(results)
