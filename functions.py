@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 def get_search_keywords():
     #Getting user input
     user_input_keywords = \
-        str(input("Please type the keywords of the job title:" + "\n")).lower().split(" ")
+        str(input("Please type the keywords of the job title separated by a space:" + "\n")).lower().split(" ")
     return user_input_keywords
     
 # Defining function to find and wait for cookie popup reject buttom to be clickable and click the buttom
