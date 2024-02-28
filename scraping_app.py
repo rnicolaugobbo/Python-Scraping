@@ -64,6 +64,7 @@ while not stop_input:
         print("Button clicked.")
     except:
         print("No more pages found.")
+        print("Press Enter to generate CSV file.")
         break
 
 input_thread.join()
