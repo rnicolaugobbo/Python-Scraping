@@ -9,6 +9,9 @@ import functions
 # Initialization of the WebDriver
 browser = webdriver.Chrome()
 
+# Initializing variable so the user can stop the application before it's done
+stop_input = False
+
 def get_search_input():
     # Finding the right fields to be filled in the website
     search_form_job = browser.find_element(By.ID, "text-input-what")
@@ -23,6 +26,12 @@ def get_search_input():
     search_form_location.send_keys(user_input_location)
 
     search_form_job.submit()
+
+# Defining a function to get user input to stop the application
+def get_user_stop_input():
+    global stop_input
+    input("Press enter to stop.")
+    stop_input = True
 
 def main():
     print("""
@@ -54,11 +63,8 @@ def main():
     # Initializing page counter
     current_page = 1
 
-    # Initializing variable so the user can stop the application before it's done
-    stop_input = False
-
     # Initializing multithreading to wait for user input while the rest of the application continues running
-    input_thread = Thread(target = functions.get_user_stop_input)
+    input_thread = Thread(target = get_user_stop_input)
     input_thread.start()
 
     # Main application logic

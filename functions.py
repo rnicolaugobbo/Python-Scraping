@@ -19,9 +19,3 @@ def email_popup_close(browser):
     email_popup_close = WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By. CSS_SELECTOR, "[aria-label=schließen]")))
     # Click email form close button
     email_popup_close.click()
-
-# Defining a function to get user input to stop the application
-def get_user_stop_input():
-    global stop_input
-    input("Press enter to stop.")
-    stop_input = True
